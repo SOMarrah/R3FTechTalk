@@ -1,4 +1,42 @@
 .CanvasContainer{
+  position: relative;
   height: 100vh;
   width: 100vw;
+}
+.textOverlay{
+  position: absolute;
+  z-index: 1;
+  margin-top: 100px;
+  margin-left: 100px;
+  font-size: x-large;
+  font-family: 'Courier New', Courier, monospace;
+}
+.slider{
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.right-arrow{
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  font-size: 4rem;
+  color: #000;
+  cursor: pointer;
+  user-select: none;
+  z-index: 2;
+}
+.left-arrow{
+  position: absolute;
+  top: 50%;
+  left: -1rem;
+  font-size: 4rem;
+  color: #000;
+  cursor: pointer;
+  user-select: none;
+  z-index: 2;
 }
