@@ -130,3 +130,131 @@ And in our CSS:
     width=100vw
 }
 ```
+## Awesome!!... but wait?
+
+If done correctly your react application should look something like this:
+
+![reactApp](./screenshots/reactApp.png)
+
+But the problem is it looks 2d right? We need to add camera controls so we can rotate around it!
+
+To assist in this task we will install a helper from the react ecosystem:
+
+```bash
+yarn add @react-three/drei
+```
+
+Here is the documentation: https://github.com/pmndrs/drei
+
+we will be using [orbit controls](https://github.com/pmndrs/drei#controls)
+
+here is how to declare them:
+
+```JSX
+//import the dependency:
+import {OrbitControls} from '@react-three/drei'
+
+//inside of our canvas:
+<OrbitControls/>
+```
+Now you should be able to zoom in, out, rotate the camera, pan the camera (using right mouse click)
+
+You could also limit the controls by the user by defining props for orbit controls.
+Here are some examples:
+
+```JSX
+ <OrbitControls 
+    makeDefault={boolean}
+    enabled={boolean}
+    minAzimuthAngle={number}
+    maxAzimuthAngle={number}
+    minPolarAngle={number}
+    maxPolarAngle={number}
+    enableZoom={boolean}
+    enablePan={boolean}
+    zoomSpeed={number}
+    minDistance={number}
+    maxDistance={number}
+    />
+```
+
+## I can rotate, but there is no color or shading?
+
+The next steps will be to add another light so we can have some shadows on the sides of our object. If we want shadows to project from our object to the 'ground' we will have to create a ground object as well. Lets create a directional light.
+
+Directional Light documentation: https://threejs.org/docs/index.html?q=direction#api/en/lights/DirectionalLight
+
+A directional light is a light source that only has one direction, and covers the entirity of your scene. Think of it acting as the 'sun'.
+
+how to declare it in react-three/fiber:
+
+``JSX
+<directionalLight/>
+```
+
+Here are some of the properties of directionalLights:
+```JSX
+<directionalLight 
+    intensity={number} 
+    position={[0,10,0]} //an array of 3 numbers representing x, z, y coordinates in our scene
+    color={'string'} //can be basic red, blue, or hex color
+    shadow-bias={-.001} //number - but leave it here
+    shadow-mapSize={[1024,1024]} //two numbers 
+    castShadow={boolean}/>//default is true.
+/>
+```
+
+Next lets declare a plane inside of the canvas:
+
+```JSX
+<mesh 
+    rotation={[-Math.PI/2, 0, 0]} //this rotates the plane 
+    position={[0,-.5,0]} //this sets the position of the plane
+>
+    <planeBufferGeometry 
+        attach={'geometry'}
+        args={[25,25]} //this property sets the size of the plane (height & width)
+    />
+    <meshPhongMaterial //this is a different type of material.
+        attach={'material'} //this property allows the color to be set to the plane
+        color='white' //this property defines the color of the plane
+    />
+</mesh>
+```
+
+Now to see shadows, we have to pass the property 'shadows' to our Canvas.
+
+```JSX
+<Canvas shadows> //shadows is a boolean with a default value of true. Once the property is set, you can define what casts & recieves shadows.
+</Canvas>
+```
+
+Then we need to give our objects the ability to cast / recieve shadows.
+
+```JSX
+//in our directionalLight component:
+<directionalLight 
+    castShadows //boolean, default is true
+    shadow-mapSize={[1024,1024]} //an array of 2 numbers representing the height/width of the shadow. Higher numbers represent smoother pixels in the shadow but more performance needed by the user.
+/>
+//in our Cube component:
+<mesh 
+    castShadow //boolean that allows the object to cast a shadow
+    position={[0,1,0]} //this represents the cube's placement in the scene. it is an array of 3 numbers representing x, z, y
+>
+    <boxGeometry />
+    <meshStandardMaterial 
+    attach={'material'} //attach the material to the cube
+    color='red' //change the color of the cube
+    />
+</mesh>
+
+ <mesh 
+    rotation={[-Math.PI/2, 0, 0]} 
+    position={[0,-.5,0]} 
+    receiveShadow>
+        <planeBufferGeometry attach={'geometry'} args={[25,25]}  />
+        <meshPhongMaterial attach={'material'} color='white'/>
+</mesh>
+
+```
