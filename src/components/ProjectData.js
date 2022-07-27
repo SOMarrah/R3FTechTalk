@@ -3,7 +3,7 @@ import Sphere from "./Sphere"
 import Dodecahedron from "./Dodecahedron"
 import Cylinder from "./Cylinder"
 import Capsule from "./Capsule"
-import Ring from "./Ring"
+import CodeAlong from "./CodeAlong"
 import Cone from "./Cone"
 
 export const ProjectData = [
@@ -34,7 +34,7 @@ export const ProjectData = [
     },
     {
         projectName: "Code Along",
-        image: <Ring/>,
+        image: <CodeAlong/>,
         description: ["https://github.com/SOMarrah/R3FTechTalk",],
     },
     {
