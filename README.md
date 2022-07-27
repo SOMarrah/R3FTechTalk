@@ -248,11 +248,11 @@ Then we need to give our objects the ability to cast / recieve shadows.
     color='red' //change the color of the cube
     />
 </mesh>
-
+//in our Plane component:
  <mesh 
-    rotation={[-Math.PI/2, 0, 0]} 
-    position={[0,-.5,0]} 
-    receiveShadow>
+    rotation={[-Math.PI/2, 0, 0]} //this property defines the rotation of the plane
+    position={[0,-.5,0]} //this property sets the position of the plane
+    receiveShadow> // this property allows the plane to recieve shadows. boolean, default is true
         <planeBufferGeometry attach={'geometry'} args={[25,25]}  />
         <meshPhongMaterial attach={'material'} color='white'/>
 </mesh>

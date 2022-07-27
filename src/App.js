@@ -6,7 +6,6 @@ import { OrbitControls } from '@react-three/drei'
 export default function App() {
   return (
     <div className='CanvasContainer'>
-      Hello World
       <Canvas shadows>
         <directionalLight position={[0,10,0]} intensity={1} castShadow shadow-mapSize={[1024,1024]}/>
 
