@@ -113,7 +113,7 @@ export default function App() {
   return (
     <div className='CanvasContainer'>
         <Canvas>
-            <ambientLight intensity={.5}>
+            <ambientLight intensity={.5}/>
             <mesh>
                 <boxGeometry />
                 <meshStandardMaterial />
@@ -126,7 +126,7 @@ export default function App() {
 And in our CSS:
 ```CSS
 .CanvasContainer{
-    height=100vh;
-    width=100vw
+    height:100vh;
+    width:100vw;
 }
 ```
