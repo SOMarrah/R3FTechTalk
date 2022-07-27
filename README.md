@@ -6,7 +6,7 @@ yarn create react-app r3ftechtalk
 ```
 Then we added our dependencies 'three' & '@react-three/fiber'
 ```bash
-yarn add three @react-three/fiber 
+yarn add three @react-three/fiber @react-three/drei
 ```
 Dependencies for React Three Fiber:
 
@@ -140,9 +140,7 @@ But the problem is it looks 2d right? We need to add camera controls so we can r
 
 To assist in this task we will install a helper from the react ecosystem:
 
-```bash
-yarn add @react-three/drei
-```
+Remember the react-three/drei import at the top? Now we will use it.
 
 Here is the documentation: https://github.com/pmndrs/drei
 
