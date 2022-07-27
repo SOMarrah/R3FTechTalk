@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+# How we got here:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+We created a react application.
+```bash
+yarn create react-app r3ftechtalk
+```
+Then we added our dependencies 'three' & '@react-three/fiber'
+```bash
+yarn add three @react-three/fiber 
+```
+Dependencies for React Three Fiber:
 
-## Available Scripts
+To use React Three Fiber components have to be functional based. This is because of a dependency on hooks.
 
-In the project directory, you can run:
+three - three.js is javascript library that utilized your processor to render 3d graphics using WebGL. WebGL is a javascript API that is used to render 3d web graphics.
 
-### `yarn start`
+Documentation:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+@react-three/fibder - is a react library that expresses three.js as JSX.
 
-### `yarn test`
+Documentation:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://docs.pmnd.rs/react-three-fiber/getting-started/introduction#is-it-slower-than-plain-three.js?
 
-### `yarn build`
+## Ok so now what?
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We need to set up a 'scene', 'camera', and 'light' to be able to have 3d objects display and render in our browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Reacr Three Fiber has all of these bundled into one convenient component called 'Canvas'. You can manually control these later if you need more control of your scene/lighting/cameras.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The canvas component directly relates to its parent. We can control the size of the canvas by setting the size of its parent - or if you want it to fill the screen we attach it to root.
 
-### `yarn eject`
+Once we have the Canvas set up we still need to declare lighting, and a 3d object. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Objects: 
+Here is the basic setup for a cube:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ ```JSX 
+ <mesh>
+    <boxGeometry />
+    <meshStandardMaterial />
+</mesh>
+```
+You will notice that ```<mesh> </mesh>``` contains box geometry and a mesh standard material. This is because we have to load a material into our 3d object. (like a texture or a color)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Here is a list of some 3d objects that can be declared in r3f (everything contained in the three.js documentation Geometry section can be declared):
+![Geometries](./screenshots/Geometries.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Do not forget to check out the properties for each constructor to see if any are required.
 
-## Learn More
+Cube: https://threejs.org/docs/#api/en/geometries/BoxGeometry translated to react-three/fiber: 
+ ```JSX 
+ <mesh>
+    <boxGeometry />
+    <meshStandardMaterial />
+</mesh>
+```
+Sphere: https://threejs.org/docs/#api/en/geometries/SphereGeometry translated into react-three/fiber:
+```JSX
+ <mesh>
+    <sphereGeometry />
+    <meshStandardMaterial />
+</mesh>
+```
+Cylindrical: https://threejs.org/docs/#api/en/geometries/CylinderGeometry translated into react-three/fiber:
+```JSX
+ <mesh>
+    <cylinderGeometry />
+    <meshStandardMaterial />
+</mesh>
+```
+Dodecahedron: https://threejs.org/docs/#api/en/geometries/DodecahedronGeometry translated into react-three/fiber:
+```JSX
+ <mesh>
+    <dodecahedronGeometry />
+    <meshStandardMaterial />
+</mesh>
+```
+## Lighting:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Ambient light sets the lighting for the entire scene. Here is the documentation: https://threejs.org/docs/#api/en/lights/AmbientLight
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Lights](./screenshots/Lights.png)
 
-### Code Splitting
+Here is the declaration:
+```JSX
+<ambientLight />
+```
+ambient light has properties of: color, and intensity. (Both are optional)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Here is an example of setting intensity:
 
-### Analyzing the Bundle Size
+```JSX
+<ambientLight intensity={.5} />
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+There are more Lights outlined in the documentation under the Lights section. https://threejs.org/docs/?q=light#api/en/lights/Light
 
-### Making a Progressive Web App
+## Put it all together:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+In our App.js lets create our canvas component, and create our lighting and mesh components. 
 
-### Advanced Configuration
+It should look something like this:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```JSX
+import React from 'react'
+import { Canvas } from '@react-three/fiber'
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default function App() {
+  return (
+    <Canvas>
+        <ambientLight intensity={.5}>
+        <mesh>
+            <boxGeometry />
+            <meshStandardMaterial />
+        </mesh>
+    </Canvas>
+  )
+}
+```
