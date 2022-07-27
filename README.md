@@ -187,7 +187,7 @@ A directional light is a light source that only has one direction, and covers th
 
 how to declare it in react-three/fiber:
 
-``JSX
+```JSX
 <directionalLight/>
 ```
 
@@ -229,32 +229,64 @@ Now to see shadows, we have to pass the property 'shadows' to our Canvas.
 ```
 
 Then we need to give our objects the ability to cast / recieve shadows.
+We use the castShadow/receiveShadow property to cast and or recieve shadows like below:
+```JSX
+<directionalLight 
+    position={[0,10,0]} //position of directional light
+    intensity={1} //intensity of the light
+    castShadow //boolean to cast shadows
+    shadow-mapSize={[1024,1024]} //you can define the shadowmap. higher numbers means smoother shadows but less performance.
+/>
+<mesh 
+    castShadow //boolean to allow this cube to cast shadows. you can also allow it to receive shadows.
+    position={[0,1,0]}>
+    <boxGeometry />
+    <meshStandardMaterial attach={'material'} color='red'/>
+</mesh>
+
+<mesh 
+    rotation={[-Math.PI/2, 0, 0]} //define the rotation of the plane.
+    position={[0,-.5,0]} 
+    receiveShadow //allow it to receive the shadows being cast.
+>
+    <planeBufferGeometry attach={'geometry'} args={[25,25]}  />
+    <meshPhongMaterial attach={'material'} color='white'/>
+</mesh>
+
+```
+Our final result will look like below:
 
 ```JSX
-//in our directionalLight component:
-<directionalLight 
-    castShadows //boolean, default is true
-    shadow-mapSize={[1024,1024]} //an array of 2 numbers representing the height/width of the shadow. Higher numbers represent smoother pixels in the shadow but more performance needed by the user.
-/>
-//in our Cube component:
-<mesh 
-    castShadow //boolean that allows the object to cast a shadow
-    position={[0,1,0]} //this represents the cube's placement in the scene. it is an array of 3 numbers representing x, z, y
->
-    <boxGeometry />
-    <meshStandardMaterial 
-    attach={'material'} //attach the material to the cube
-    color='red' //change the color of the cube
-    />
-</mesh>
-//in our Plane component:
- <mesh 
-    rotation={[-Math.PI/2, 0, 0]} //this property defines the rotation of the plane
-    position={[0,-.5,0]} //this property sets the position of the plane
-    receiveShadow> // this property allows the plane to recieve shadows. boolean, default is true
-        <planeBufferGeometry attach={'geometry'} args={[25,25]}  />
-        <meshPhongMaterial attach={'material'} color='white'/>
-</mesh>
+
+import React from 'react'
+import './App.css'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+
+export default function App() {
+  return (
+    <div className='CanvasContainer'>
+      <Canvas shadows>
+        <directionalLight position={[0,10,0]} intensity={1} castShadow shadow-mapSize={[1024,1024]}/>
+
+        <ambientLight intensity={.5}/>
+
+        <mesh castShadow position={[0,1,0]}>
+          <boxGeometry />
+          <meshStandardMaterial attach={'material'} color='red'/>
+        </mesh>
+
+        <mesh rotation={[-Math.PI/2, 0, 0]} position={[0,-.5,0]} receiveShadow>
+          <planeBufferGeometry attach={'geometry'} args={[25,25]}  />
+          <meshPhongMaterial attach={'material'} color='white'/>
+        </mesh>
+
+        <OrbitControls/>
+
+      </Canvas>
+    </div>
+  )
+}
 
 ```
 
